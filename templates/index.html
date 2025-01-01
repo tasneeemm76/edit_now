@@ -7,78 +7,188 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #f0f4f8;
+            font-family: Arial, sans-serif;
+            margin: 0;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
+    
         header {
-            background-color: #007bff;
-            color: white;
-            padding: 15px 0;
+            background-color: #002B5B;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        header h1 {
-            margin: 0;
+    
+        .main-content {
+            display: flex;
+            flex-grow: 1;
+            padding: 20px;
         }
+    
+        .sidebar {
+            background-color: #f0f4f8;
+            color: #fff;
+            width: 220px;
+            padding: 20px;
+            box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        .sidebar a {
+            background-color:rgb(0, 55, 109);
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+    
+        .sidebar a:hover {
+            background-color: #005BB5;
+            color: #E6F1FF;
+        }
+    
         .container {
             flex-grow: 1;
-            max-width: 600px;
-            margin-top: 20px;
+            max-width: 700px;
+            margin: auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .slider {
-            width: 100%;
-            margin-top: 10px;
+    
+        .container h2 {
+            color: #003F72;
+            margin-bottom: 20px;
         }
+    
+        .form-label {
+            font-weight: 600;
+            color: #002B5B;
+        }
+    
+        .btn-primary {
+            background-color: #005BB5;
+            border-color: #005BB5;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+    
+        .btn-primary:hover {
+            background-color: #003F72;
+            transform: scale(1.05);
+        }
+    
         footer {
-            background-color: #343a40;
-            color: white;
-            padding: 10px 0;
+            background-color: #002B5B;
+            color: #fff;
+            padding: 15px 0;
             text-align: center;
+            font-size: 0.9rem;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
         }
+    
         footer a {
             color: #0dcaf0;
             text-decoration: none;
         }
+    
         footer a:hover {
             text-decoration: underline;
         }
     </style>
+    
 </head>
 <body>
     <!-- Header -->
-    <header class="text-center">
-        <h1>EDIT NOW</h1>
+    <header>
+        <h1>Edit Now</h1>
     </header>
 
-    <!-- Main Content -->
-    <div class="container text-center">
-        <h2 class="mb-4">Image Blur App</h2>
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="fileInput" class="form-label">Upload an Image:</label>
-                <input type="file" name="file" id="fileInput" class="form-control" accept="image/*" required>
+    <!-- Main Content with Sidebar -->
+    <div class="main-content">
+        <div class="sidebar">
+            <a href="#" id="blurImageLink">Blur Image</a>
+            <a href="#" id="sharpenImageLink">Sharpen Image</a>
+        </div>
+
+        <div class="container">
+            <!-- Blur Image Form -->
+            <div id="blurForm">
+                <h2 class="mb-4">Blur Image</h2>
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="process_type" value="blur">
+                    <div class="mb-3">
+                        <label for="fileInput" class="form-label">Upload an Image:</label>
+                        <input type="file" name="file" id="fileInput" class="form-control" accept="image/*" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="intensity" class="form-label">Adjust Blur Intensity:</label>
+                        <input type="range" name="intensity" id="intensity" class="slider form-range" min="1" max="51" value="15" step="2">
+                        <div id="intensityValue" class="mt-2">Intensity: <strong>15</strong></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload and Blur</button>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="blurIntensity" class="form-label">Adjust Blur Intensity:</label>
-                <input type="range" name="blur_intensity" id="blurIntensity" class="slider form-range" min="1" max="51" value="15" step="2">
-                <div id="blurValue" class="mt-2">Blur Intensity: <strong>15</strong></div>
+
+            <!-- Sharpen Image Form -->
+            <div id="sharpenForm" style="display: none;">
+                <h2 class="mb-4">Sharpen Image</h2>
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="process_type" value="sharpen">
+                    <div class="mb-3">
+                        <label for="fileInputSharpen" class="form-label">Upload an Image:</label>
+                        <input type="file" name="file" id="fileInputSharpen" class="form-control" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload and Sharpen</button>
+                </form>
             </div>
-            <button type="submit" class="btn btn-primary">Upload and Blur</button>
-        </form>
+        </div>
     </div>
 
     <!-- Footer -->
     <footer>
-        <p>Made with ❤️ by <a href="https://github.com/tasneeemm76" target="_blank">Tasneem Bawaji</a> | <a href="www.linkedin.com/in/tasneem-bawaji-a82412282" target="_blank">LinkedIn</a></p>
+        <p>Copyright @<a href="https://github.com/tasneeemm76" target="_blank">Tasneem Bawaji</a> | <a href="www.linkedin.com/in/tasneem-bawaji-a82412282" target="_blank">LinkedIn</a></p>
     </footer>
 
     <script>
-        // Update the displayed blur value dynamically
-        const slider = document.getElementById('blurIntensity');
-        const blurValue = document.getElementById('blurValue');
+        const blurLink = document.getElementById('blurImageLink');
+        const sharpenLink = document.getElementById('sharpenImageLink');
+        const blurForm = document.getElementById('blurForm');
+        const sharpenForm = document.getElementById('sharpenForm');
+        const intensitySlider = document.getElementById('intensity');
+        const intensityValue = document.getElementById('intensityValue');
 
-        slider.addEventListener('input', () => {
-            blurValue.innerHTML = `Blur Intensity: <strong>${slider.value}</strong>`;
+        // Update intensity value dynamically
+        intensitySlider.addEventListener('input', () => {
+            intensityValue.innerHTML = `Intensity: <strong>${intensitySlider.value}</strong>`;
+        });
+
+        // Show Blur Form and Hide Sharpen Form
+        blurLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            blurForm.style.display = 'block';
+            sharpenForm.style.display = 'none';
+        });
+
+        // Show Sharpen Form and Hide Blur Form
+        sharpenLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            blurForm.style.display = 'none';
+            sharpenForm.style.display = 'block';
         });
     </script>
 </body>
