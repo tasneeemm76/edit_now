@@ -1,9 +1,10 @@
 import base64
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, jsonify
 import numpy as np
 import cv2
 from werkzeug.utils import secure_filename
 import io
+import os
 
 app = Flask(__name__)
 
@@ -54,6 +55,65 @@ def upload_file():
             process_type=process_type,
             filename=filename
         )
+    
+
+from flask import Flask, render_template, request, redirect, url_for
+from PIL import Image, ImageFilter
+import io
+from PIL import Image, ImageFilter
+import io
+import base64
+
+@app.route('/blur_selected_area', methods=['GET', 'POST'])
+def blur_selected_area():
+    if request.method == 'POST':
+        if 'image' not in request.files:
+            return "No file part", 400
+        
+        file = request.files['image']
+        
+        if file.filename == '':
+            return "No selected file", 400
+        
+        if file:
+            img = Image.open(file.stream)
+
+            # Encode the original image in base64
+            img_io_original = io.BytesIO()
+            img.save(img_io_original, 'PNG')
+            img_io_original.seek(0)
+            original_image_base64 = base64.b64encode(img_io_original.getvalue()).decode('utf-8')
+
+            # Processing the image (blurring selected area)
+            selected_area = (100, 100, 300, 300)  # Example coordinates for selected area
+            cropped_img = img.crop(selected_area)
+            blurred_area = cropped_img.filter(ImageFilter.GaussianBlur(radius=5))
+            img.paste(blurred_area, selected_area)
+
+            # Encode the processed image in base64
+            img_io_processed = io.BytesIO()
+            img.save(img_io_processed, 'PNG')
+            img_io_processed.seek(0)
+            processed_image_base64 = base64.b64encode(img_io_processed.getvalue()).decode('utf-8')
+
+            # Pass both original and processed images to result.html
+            return render_template('result.html', 
+                                   original_image=original_image_base64, 
+                                   processed_image=processed_image_base64, 
+                                   process_type='blur', 
+                                   filename='blurred_image.png')
+
+    return render_template('blur_selected_area.html')
+
+
+@app.route('/result', methods=['POST'])
+def result():
+    image_data = request.form['image_data']
+    process_type = request.form.get('process_type', 'processed')  # Optional, depending on your needs
+    filename = request.form.get('filename', 'processed_image')    # Optional, for download purposes
+    
+    return render_template('result.html', processed_image=image_data, process_type=process_type, filename=filename)
+
 
 @app.route('/download', methods=['POST'])
 def download_file():
@@ -69,6 +129,8 @@ def download_file():
 
     # Send the image as a downloadable file
     return send_file(img_io, mimetype='image/jpeg', as_attachment=True, download_name=filename)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

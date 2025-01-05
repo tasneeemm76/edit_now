@@ -91,7 +91,7 @@
             background-color: #003F72;
             transform: scale(1.05);
         }
-
+    
         .btn-success {
             background-color: #28a745;
             border-color: #28a745;
@@ -100,12 +100,12 @@
             border-radius: 5px;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
-
+    
         .btn-success:hover {
             background-color: #218838;
             transform: scale(1.05);
         }
-
+    
         .text-center img {
             max-width: 100%;
             height: auto;
@@ -131,30 +131,80 @@
         footer a:hover {
             text-decoration: underline;
         }
+    
+        /* Media Query for Mobile Screens */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                padding: 10px;
+            }
+    
+            .sidebar {
+                width: 100%;
+                padding: 10px;
+                box-shadow: none;
+            }
+    
+            .container {
+                padding: 15px;
+            }
+    
+            header, footer {
+                font-size: 1.5rem;
+                padding: 15px 0;
+            }
+    
+            .btn-primary, .btn-success {
+                font-size: 1rem;
+                padding: 8px 16px;
+            }
+        }
+    
+        @media (max-width: 480px) {
+            header, footer {
+                font-size: 1.2rem;
+            }
+    
+            .btn-primary, .btn-success {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+    
+            .text-center img {
+                margin: 10px 0;
+            }
+        }
     </style>
+    
 </head>
 <body>
     <!-- Header -->
     <header>
-        <h1>Edit Now</h1>
+        <h1>Image Editor - By Tasneem Bawaji</h1>
     </header>
 
-    <!-- Main Content with Sidebar -->
-    <div class="main-content">
-        <div class="sidebar">
-            <a href="#" id="blurImageLink">Blur Image</a>
-            <a href="#" id="sharpenImageLink">Sharpen Image</a>
-        </div>
-        <div class="container text-center">
-            <h2>Original Image</h2>
-            <img src="data:image/jpeg;base64,{{ original_image }}" class="img-fluid" alt="Original Image">
-            <h2>Processed Image ({{ process_type|capitalize }})</h2>
-            <img src="data:image/jpeg;base64,{{ processed_image }}" class="img-fluid" alt="Processed Image">
-            <form action="/download" method="post">
-                <input type="hidden" name="image_data" value="{{ processed_image }}">
-                <input type="hidden" name="filename" value="processed_{{ filename }}">
-                <button type="submit" class="btn btn-success mt-3">Download Processed Image</button>
-            </form>
+        <!-- Main Content with Sidebar -->
+        <div class="main-content">
+            <div class="sidebar">
+                <a href="#">Blur Image</a>
+                <a href="#">Sharpen Image</a>
+            </div>
+            <div class="container text-center">
+                <h2>Original Image</h2>
+                <img src="data:image/png;base64,{{ original_image }}" class="img-fluid" alt="Original Image">
+                
+                <h2>Processed Image ({{ process_type|capitalize }})</h2>
+                <img src="data:image/png;base64,{{ processed_image }}" class="img-fluid" alt="Processed Image">
+                
+                <form action="{{ url_for('download_file') }}" method="post">
+                    <input type="hidden" name="image_data" value="{{ processed_image }}">
+                    <input type="hidden" name="filename" value="processed_image.jpg">
+                    <button type="submit" class="btn btn-success mt-3">Download Processed Image</button>
+                </form>
+                
+            </div>
+            
+            
         </div>
     </div>
     
