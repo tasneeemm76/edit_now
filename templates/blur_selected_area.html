@@ -8,10 +8,236 @@
         #imageCanvas {
             border: 1px solid black;
         }
+
+        body {
+            background-color: #f0f4f8;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+    
+        header {
+            background-color: #002B5B;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        .main-content {
+            display: flex;
+            flex-grow: 1;
+            padding: 20px;
+            gap: 20px;
+        }
+    
+        .sidebar {
+            background-color: #f0f4f8;
+            width: 200px;
+            padding: 20px;
+            box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        .sidebar a {
+            background-color: rgb(0, 55, 109);
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+    
+        .sidebar a:hover {
+            background-color: #005BB5;
+            color: #E6F1FF;
+        }
+    
+        .container {
+            flex-grow: 1;
+            max-width: 900px;
+            margin: auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+        .container h2 {
+            color: #003F72;
+            margin-bottom: 20px;
+        }
+    
+        .form-label {
+            font-weight: 600;
+            color: #002B5B;
+        }
+        form {
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+    
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+    
+        #imageCanvas {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+            background-color: #fff;
+            cursor: crosshair;
+        }
+    
+        button[type="submit"] {
+            background-color: #005BB5;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    
+        button[type="submit"]:hover {
+            background-color: #003F72;
+        }
+    
+        .btn-primary {
+            background-color: #005BB5;
+            border-color: #005BB5;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+    
+        .btn-primary:hover {
+            background-color: #003F72;
+            transform: scale(1.05);
+        }
+    
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+    
+        .btn-success:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+    
+        .text-center img {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+    
+        footer {
+            background-color: #002B5B;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        footer a {
+            color: #0dcaf0;
+            text-decoration: none;
+        }
+    
+        footer a:hover {
+            text-decoration: underline;
+        }
+    
+        /* Media Query for Mobile Screens */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                padding: 10px;
+            }
+    
+            .sidebar {
+                width: 100%;
+                padding: 10px;
+                box-shadow: none;
+            }
+    
+            .container {
+                padding: 15px;
+            }
+    
+            header, footer {
+                font-size: 1.5rem;
+                padding: 15px 0;
+            }
+    
+            .btn-primary, .btn-success {
+                font-size: 1rem;
+                padding: 8px 16px;
+            }
+        }
+    
+        @media (max-width: 480px) {
+            header, footer {
+                font-size: 1.2rem;
+            }
+    
+            .btn-primary, .btn-success {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+    
+            .text-center img {
+                margin: 10px 0;
+            }
+        }
+        
     </style>
 </head>
 <body>
-    <h2>Upload Image and Select Area to Blur</h2>
+    <header>
+        <h1>Image Editor - By Tasneem Bawaji</h1>
+    </header>
+
+    <div class="main-content">
+        <div class="sidebar">
+            <a href="/" id="blurImageLink">Blur Image</a>
+            <a href="/" id="sharpenImageLink">Sharpen Image</a>            
+            <a href="{{ url_for('blur_selected_area') }}" id="blurSelectedAreaLink">Blur Selected Area</a>
+        </div>
+
+        <div class="container">
+            <h1>The selected area will be blured out </h1>
 <form action="{{ url_for('blur_selected_area') }}" method="POST" enctype="multipart/form-data">
     <input type="file" name="image" id="imageInput" accept="image/*" required><br><br>
     <canvas id="imageCanvas"></canvas><br><br>

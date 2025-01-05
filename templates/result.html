@@ -186,8 +186,9 @@
         <!-- Main Content with Sidebar -->
         <div class="main-content">
             <div class="sidebar">
-                <a href="#">Blur Image</a>
-                <a href="#">Sharpen Image</a>
+                <a href="/" id="blurImageLink">Blur Image</a>
+                <a href="/" id="sharpenImageLink">Sharpen Image</a>            
+                <a href="{{ url_for('blur_selected_area') }}" id="blurSelectedAreaLink">Blur Selected Area</a>
             </div>
             <div class="container text-center">
                 <h2>Original Image</h2>
